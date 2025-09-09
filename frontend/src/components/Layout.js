@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Modal from './Modal';
 
 const Layout = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
   const isActive = (path) => location.pathname === path;
 
@@ -31,6 +33,14 @@ const Layout = () => {
                 Transferências
               </Link>
             </li>
+            <li>
+                <button 
+                  className="sidebar-about-btn" 
+                  onClick={() => setIsAboutModalOpen(true)}
+                >
+                  Sobre
+                </button>
+              </li>
           </ul>
         </nav>
       </div>
@@ -43,6 +53,23 @@ const Layout = () => {
         </div>
         <Outlet />
       </div>
+      
+      <Modal 
+        isOpen={isAboutModalOpen} 
+        onClose={() => setIsAboutModalOpen(false)}
+        title="Sobre o eContador Bank"
+      >
+        <div className="about-modal">
+          <div className="about-logo">
+            <img src="./econtador-bank-logo.png" alt="eContador Bank" />
+          </div>
+          <div className="about-info">
+            <p><strong>Versão:</strong> 1.0.0</p>
+            <br />
+            <p>Software desenvolvido por inteligência artificial para fins didáticos.</p>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
