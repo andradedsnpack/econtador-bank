@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Modal from '../components/Modal';
+import FormInput from '../components/FormInput';
+import FormSelect from '../components/FormSelect';
+import { useToast } from '../context/ToastContext';
 import { transferAPI, accountAPI } from '../services/api';
 
 const Transfers = () => {
@@ -16,7 +19,11 @@ const Transfers = () => {
     description: ''
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const { showSuccess, showError } = useToast();
+  const fromAccountRef = useRef();
+  const toAccountNumberRef = useRef();
+  const toAgencyRef = useRef();
+  const amountRef = useRef();
 
   useEffect(() => {
     loadTransfers();
@@ -60,8 +67,17 @@ const Transfers = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const isFromAccountValid = fromAccountRef.current?.validate() ?? true;
+    const isToAccountNumberValid = toAccountNumberRef.current?.validate() ?? true;
+    const isToAgencyValid = toAgencyRef.current?.validate() ?? true;
+    const isAmountValid = amountRef.current?.validate() ?? true;
+    
+    if (!isFromAccountValid || !isToAccountNumberValid || !isToAgencyValid || !isAmountValid) {
+      return;
+    }
+    
     setLoading(true);
-    setError('');
 
     try {
       const response = await transferAPI.createTransfer(formData);
@@ -74,8 +90,9 @@ const Transfers = () => {
         amount: '',
         description: ''
       });
+      showSuccess('Transferência realizada com sucesso!');
     } catch (error) {
-      setError(error.response?.data?.message || 'Erro ao realizar transferência');
+      showError(error.response?.data?.message || 'Erro ao realizar transferência');
     } finally {
       setLoading(false);
     }
@@ -151,56 +168,52 @@ eContador Bank
       <br />
 
       <div className="transfer-form">
-        <h3>Nova Transferência</h3>
+        <h3>Nova transferência</h3>
         <br />
         
-        {error && <div className="error-message">{error}</div>}
+
         
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Conta de origem</label>
-            <select
-              name="fromAccountId"
-              value={formData.fromAccountId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione uma conta</option>
-              {accounts.map(account => (
-                <option key={account.id} value={account.id}>
-                  {getAccountDisplay(account)} - {formatCurrency(account.balance)}
-                </option>
-              ))}
-            </select>
-          </div>
+        <form onSubmit={handleSubmit} noValidate>
+          <FormSelect
+            ref={fromAccountRef}
+            label="Conta de origem"
+            name="fromAccountId"
+            value={formData.fromAccountId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione uma conta</option>
+            {accounts.map(account => (
+              <option key={account.id} value={account.id}>
+                {getAccountDisplay(account)} - {formatCurrency(account.balance)}
+              </option>
+            ))}
+          </FormSelect>
+
+          <FormInput
+            ref={toAccountNumberRef}
+            label="Conta de destino"
+            name="toAccountNumber"
+            placeholder="123456-7"
+            value={formData.toAccountNumber}
+            onChange={handleChange}
+            required
+          />
+
+          <FormInput
+            ref={toAgencyRef}
+            label="Agência de destino"
+            name="toAgency"
+            placeholder="0001"
+            value={formData.toAgency}
+            onChange={handleChange}
+            required
+          />
 
           <div className="form-group">
-            <label>Conta de destino</label>
-            <input
-              type="text"
-              name="toAccountNumber"
-              placeholder="123456-7"
-              value={formData.toAccountNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Agência de destino</label>
-            <input
-              type="text"
-              name="toAgency"
-              placeholder="0001"
-              value={formData.toAgency}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Valor</label>
-            <input
+            <FormInput
+              ref={amountRef}
+              label="Valor"
               type="number"
               name="amount"
               placeholder="0,00"
@@ -215,7 +228,7 @@ eContador Bank
           </div>
 
           <div className="form-group">
-            <label>Descrição (opcional)</label>
+            <label>Descrição</label>
             <input
               type="text"
               name="description"
@@ -234,8 +247,7 @@ eContador Bank
       {receipt && (
         <div className="receipt">
           <div className="receipt-header">
-            <h3>Comprovante de Transferência</h3>
-            <p>Transferência realizada com sucesso!</p>
+            <h3>Comprovante de transferência</h3>
           </div>
           
           <div className="receipt-details">

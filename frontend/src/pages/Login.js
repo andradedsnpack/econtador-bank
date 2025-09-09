@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { authAPI } from '../services/api';
+import FormInput from '../components/FormInput';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +13,10 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const { showError } = useToast();
   const navigate = useNavigate();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const handleChange = (e) => {
     setFormData({
@@ -22,6 +27,14 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const isEmailValid = emailRef.current?.validate() ?? true;
+    const isPasswordValid = passwordRef.current?.validate() ?? true;
+    
+    if (!isEmailValid || !isPasswordValid) {
+      return;
+    }
+    
     setLoading(true);
     setError('');
 
@@ -30,7 +43,8 @@ const Login = () => {
       login(response.data.user, response.data.token);
       navigate('/');
     } catch (error) {
-      setError(error.response?.data?.message || 'Erro ao fazer login');
+      const errorMessage = error.response?.data?.message || 'Erro ao fazer login';
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -47,29 +61,27 @@ const Login = () => {
         
         {error && <div className="error-message">{error}</div>}
         
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="john@email.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <form onSubmit={handleSubmit} noValidate>
+          <FormInput
+            ref={emailRef}
+            label="Email"
+            type="email"
+            name="email"
+            placeholder="john@email.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
           
-          <div className="form-group">
-            <label>Senha</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <FormInput
+            ref={passwordRef}
+            label="Senha"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
           
           <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? 'Entrando...' : 'Entrar'}

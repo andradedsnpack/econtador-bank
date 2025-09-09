@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Modal from '../components/Modal';
+import FormInput from '../components/FormInput';
+import BankSelection from '../components/BankSelection';
+import { useToast } from '../context/ToastContext';
 import { accountAPI } from '../services/api';
 
 const Accounts = () => {
@@ -15,7 +18,11 @@ const Accounts = () => {
     balance: ''
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const { showSuccess, showError } = useToast();
+  const accountNumberRef = useRef();
+  const agencyRef = useRef();
+  const bankRef = useRef();
+  const passwordRef = useRef();
 
   useEffect(() => {
     loadAccounts();
@@ -61,7 +68,6 @@ const Accounts = () => {
       });
     }
     setIsModalOpen(true);
-    setError('');
   };
 
   const handleCloseModal = () => {
@@ -74,7 +80,6 @@ const Accounts = () => {
       password: '',
       balance: ''
     });
-    setError('');
   };
 
   const handleChange = (e) => {
@@ -93,19 +98,30 @@ const Accounts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const isAccountNumberValid = accountNumberRef.current?.validate() ?? true;
+    const isAgencyValid = agencyRef.current?.validate() ?? true;
+    const isBankValid = bankRef.current?.validate() ?? true;
+    const isPasswordValid = passwordRef.current?.validate() ?? true;
+    
+    if (!isAccountNumberValid || !isAgencyValid || !isBankValid || !isPasswordValid) {
+      return;
+    }
+    
     setLoading(true);
-    setError('');
 
     try {
       if (editingAccount) {
         await accountAPI.updateAccount(editingAccount.id, formData);
+        showSuccess('Conta atualizada com sucesso!');
       } else {
         await accountAPI.createAccount(formData);
+        showSuccess('Conta cadastrada com sucesso!');
       }
       await loadAccounts();
       handleCloseModal();
     } catch (error) {
-      setError(error.response?.data?.message || 'Erro ao salvar conta');
+      showError(error.response?.data?.message || 'Erro ao salvar conta');
     } finally {
       setLoading(false);
     }
@@ -116,8 +132,9 @@ const Accounts = () => {
       try {
         await accountAPI.deleteAccount(accountId);
         await loadAccounts();
+        showSuccess('Conta excluída com sucesso!');
       } catch (error) {
-        alert('Erro ao excluir conta');
+        showError('Erro ao excluir conta');
       }
     }
   };
@@ -200,69 +217,48 @@ const Accounts = () => {
         onClose={handleCloseModal}
         title={editingAccount ? 'Editar conta' : 'Nova conta'}
       >
-        {error && <div className="error-message">{error}</div>}
+
         
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Número da conta</label>
-            <input
-              type="text"
-              name="accountNumber"
-              placeholder="123456-7"
-              value={formData.accountNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <form onSubmit={handleSubmit} noValidate>
+          <FormInput
+            ref={accountNumberRef}
+            label="Número da conta"
+            name="accountNumber"
+            placeholder="123456-7"
+            value={formData.accountNumber}
+            onChange={handleChange}
+            required
+          />
 
-          <div className="form-group">
-            <label>Agência</label>
-            <input
-              type="text"
-              name="agency"
-              placeholder="0001"
-              value={formData.agency}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <FormInput
+            ref={agencyRef}
+            label="Agência"
+            name="agency"
+            placeholder="0001"
+            value={formData.agency}
+            onChange={handleChange}
+            required
+          />
 
-          <div className="form-group">
-            <label>Banco</label>
-            <div className="bank-selection">
-              {banks.map(bank => (
-                <div 
-                  key={bank.id}
-                  className={`bank-card ${formData.bank === bank.id ? 'selected' : ''}`}
-                  onClick={() => handleBankSelect(bank.id)}
-                >
-                  <div className="bank-logo">
-                    <img 
-                      src={getBankImage(bank.id)} 
-                      alt={bank.name}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'block';
-                      }}
-                    />
-                    <div style={{display: 'none'}}>{bank.name.substring(0, 3).toUpperCase()}</div>
-                  </div>
-                  <div>{bank.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <BankSelection
+            ref={bankRef}
+            label="Banco"
+            banks={banks}
+            selectedBank={formData.bank}
+            onBankSelect={handleBankSelect}
+            getBankImage={getBankImage}
+            required
+          />
 
-          <div className="form-group">
-            <label>Senha da conta</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <FormInput
+            ref={passwordRef}
+            label="Senha da conta"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
 
           {!editingAccount && (
             <div className="form-group">
