@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { authAPI } from '../services/api';
 import FormInput from '../components/FormInput';
 
@@ -14,6 +15,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const { showError } = useToast();
   const navigate = useNavigate();
   const nameRef = useRef();
   const emailRef = useRef();
@@ -43,7 +45,7 @@ const Register = () => {
     setError('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Senhas não coincidem');
+      showError('Senhas não coincidem');
       setLoading(false);
       return;
     }
@@ -70,7 +72,7 @@ const Register = () => {
         
         {error && <div className="error-message">{error}</div>}
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <FormInput
             ref={nameRef}
             label="Nome"

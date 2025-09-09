@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import { useToast } from '../context/ToastContext';
 
 const FormInput = forwardRef(({ 
   label, 
@@ -11,6 +12,7 @@ const FormInput = forwardRef(({
   ...props 
 }, ref) => {
   const [error, setError] = useState('');
+  const { showError } = useToast();
 
   const validateField = () => {
     if (required && !value.trim()) {
@@ -29,6 +31,17 @@ const FormInput = forwardRef(({
       setError(`Informe ${article} ${displayLabel}`);
       return false;
     }
+    
+    if (type === 'email' && value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      showError('Email inválido');
+      return false;
+    }
+    
+    if (type === 'number' && value && parseFloat(value) > 5000) {
+      showError('O valor deve ser menor ou igual a 5000');
+      return false;
+    }
+    
     setError('');
     return true;
   };

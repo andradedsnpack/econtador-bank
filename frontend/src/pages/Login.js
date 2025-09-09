@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { authAPI } from '../services/api';
 import FormInput from '../components/FormInput';
 
@@ -12,6 +13,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const { showError } = useToast();
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -41,7 +43,8 @@ const Login = () => {
       login(response.data.user, response.data.token);
       navigate('/');
     } catch (error) {
-      setError(error.response?.data?.message || 'Erro ao fazer login');
+      const errorMessage = error.response?.data?.message || 'Erro ao fazer login';
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -58,7 +61,7 @@ const Login = () => {
         
         {error && <div className="error-message">{error}</div>}
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <FormInput
             ref={emailRef}
             label="Email"

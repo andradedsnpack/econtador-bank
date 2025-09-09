@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Modal from '../components/Modal';
 import FormInput from '../components/FormInput';
 import FormSelect from '../components/FormSelect';
+import { useToast } from '../context/ToastContext';
 import { transferAPI, accountAPI } from '../services/api';
 
 const Transfers = () => {
@@ -18,7 +19,7 @@ const Transfers = () => {
     description: ''
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const { showSuccess, showError } = useToast();
   const fromAccountRef = useRef();
   const toAccountNumberRef = useRef();
   const toAgencyRef = useRef();
@@ -77,7 +78,6 @@ const Transfers = () => {
     }
     
     setLoading(true);
-    setError('');
 
     try {
       const response = await transferAPI.createTransfer(formData);
@@ -90,8 +90,9 @@ const Transfers = () => {
         amount: '',
         description: ''
       });
+      showSuccess('Transferência realizada com sucesso!');
     } catch (error) {
-      setError(error.response?.data?.message || 'Erro ao realizar transferência');
+      showError(error.response?.data?.message || 'Erro ao realizar transferência');
     } finally {
       setLoading(false);
     }
@@ -170,9 +171,9 @@ eContador Bank
         <h3>Nova Transferência</h3>
         <br />
         
-        {error && <div className="error-message">{error}</div>}
+
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <FormSelect
             ref={fromAccountRef}
             label="Conta de origem"
