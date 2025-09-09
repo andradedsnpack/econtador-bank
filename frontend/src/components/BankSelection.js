@@ -35,7 +35,9 @@ const BankSelection = forwardRef(({
             className={`bank-card ${selectedBank === bank.id ? 'selected' : ''} ${error ? 'input-error' : ''}`}
             onClick={() => {
               onBankSelect(bank.id);
-              if (error) validateField();
+              if (error) {
+                setError('');
+              }
             }}
           >
             <div className="bank-logo">
