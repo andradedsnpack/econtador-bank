@@ -456,6 +456,22 @@ body {
   color: #666;
 }
 
+.required-text {
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.input-error {
+  border-color: #dc3545 !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .layout {

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Modal from '../components/Modal';
+import FormInput from '../components/FormInput';
 import { accountAPI } from '../services/api';
 
 const Accounts = () => {
@@ -16,6 +17,9 @@ const Accounts = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const accountNumberRef = useRef();
+  const agencyRef = useRef();
+  const passwordRef = useRef();
 
   useEffect(() => {
     loadAccounts();
@@ -93,6 +97,15 @@ const Accounts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const isAccountNumberValid = accountNumberRef.current?.validate() ?? true;
+    const isAgencyValid = agencyRef.current?.validate() ?? true;
+    const isPasswordValid = passwordRef.current?.validate() ?? true;
+    
+    if (!isAccountNumberValid || !isAgencyValid || !isPasswordValid) {
+      return;
+    }
+    
     setLoading(true);
     setError('');
 
@@ -203,29 +216,25 @@ const Accounts = () => {
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Número da conta</label>
-            <input
-              type="text"
-              name="accountNumber"
-              placeholder="123456-7"
-              value={formData.accountNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <FormInput
+            ref={accountNumberRef}
+            label="Número da conta"
+            name="accountNumber"
+            placeholder="123456-7"
+            value={formData.accountNumber}
+            onChange={handleChange}
+            required
+          />
 
-          <div className="form-group">
-            <label>Agência</label>
-            <input
-              type="text"
-              name="agency"
-              placeholder="0001"
-              value={formData.agency}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <FormInput
+            ref={agencyRef}
+            label="Agência"
+            name="agency"
+            placeholder="0001"
+            value={formData.agency}
+            onChange={handleChange}
+            required
+          />
 
           <div className="form-group">
             <label>Banco</label>
@@ -253,16 +262,15 @@ const Accounts = () => {
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Senha da conta</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <FormInput
+            ref={passwordRef}
+            label="Senha da conta"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
 
           {!editingAccount && (
             <div className="form-group">
