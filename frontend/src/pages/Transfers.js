@@ -268,17 +268,19 @@ eContador Bank
             </div>
           </div>
           
-          <div className="receipt-actions">
-            <button className="btn btn-secondary" onClick={handleDownloadReceipt}>
-              Baixar Comprovante
-            </button>
-            <button className="btn btn-secondary" onClick={handleShareReceipt}>
-              Compartilhar por Email
-            </button>
-            <button className="btn btn-primary" onClick={() => setReceipt(null)}>
-              Fechar
-            </button>
-          </div>
+          <div className="actions">
+            <div className="receipt-actions">
+              <button className="btn btn-secondary" onClick={handleDownloadReceipt}>
+                Baixar comprovante
+              </button>
+              <button className="btn btn-secondary" onClick={handleShareReceipt}>
+                Compartilhar por email
+              </button>
+              </div>
+              <button className="btn btn-primary" onClick={() => setReceipt(null)}>
+                Fechar
+              </button>
+            </div>
         </div>
       )}
 

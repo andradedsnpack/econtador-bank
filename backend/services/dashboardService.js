@@ -6,7 +6,7 @@ class DashboardService {
     const userAccounts = Account.findByUserId(userId);
     const userTransfers = Transfer.findByUserId(userId, userAccounts);
     
-    const totalBalance = userAccounts.reduce((sum, account) => sum + account.balance, 0);
+    const totalBalance = userAccounts.reduce((sum, account) => sum + parseFloat(account.balance), 0);
     
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     const recentTransfers = userTransfers.filter(t => t.createdAt >= thirtyDaysAgo);
