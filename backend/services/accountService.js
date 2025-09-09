@@ -22,7 +22,7 @@ class AccountService {
       agency,
       bank,
       password: hashedPassword,
-      balance: balance || 0
+      balance: parseFloat(balance) || 0
     });
   }
 

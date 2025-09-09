@@ -191,14 +191,14 @@ const Accounts = () => {
 
       {accounts.length === 0 && (
         <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
-          Nenhuma conta cadastrada. Clique em "Nova Conta" para começar.
+          Nenhuma conta cadastrada. Clique em "Nova conta" para começar.
         </div>
       )}
 
       <Modal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal}
-        title={editingAccount ? 'Editar Conta' : 'Nova Conta'}
+        title={editingAccount ? 'Editar conta' : 'Nova conta'}
       >
         {error && <div className="error-message">{error}</div>}
         
@@ -208,6 +208,7 @@ const Accounts = () => {
             <input
               type="text"
               name="accountNumber"
+              placeholder="123456-7"
               value={formData.accountNumber}
               onChange={handleChange}
               required
@@ -219,6 +220,7 @@ const Accounts = () => {
             <input
               type="text"
               name="agency"
+              placeholder="0001"
               value={formData.agency}
               onChange={handleChange}
               required
@@ -268,6 +270,7 @@ const Accounts = () => {
               <input
                 type="number"
                 name="balance"
+                placeholder="0,00"
                 value={formData.balance}
                 onChange={handleChange}
                 step="0.01"

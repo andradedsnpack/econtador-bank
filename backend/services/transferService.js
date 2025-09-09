@@ -4,8 +4,9 @@ const Transfer = require('../models/Transfer');
 class TransferService {
   static async createTransfer(userId, transferData) {
     const { fromAccountId, toAccountNumber, toAgency, amount, description } = transferData;
+    const transferAmount = parseFloat(amount);
     
-    if (amount > 5000) {
+    if (transferAmount > 5000) {
       throw new Error('Valor máximo para transferência é R$ 5.000,00');
     }
 
@@ -14,7 +15,7 @@ class TransferService {
       throw new Error('Conta de origem não encontrada');
     }
 
-    if (fromAccount.balance < amount) {
+    if (fromAccount.balance < transferAmount) {
       throw new Error('Saldo insuficiente');
     }
 
@@ -27,13 +28,17 @@ class TransferService {
       throw new Error('Não é possível transferir para a mesma conta');
     }
 
-    fromAccount.balance -= amount;
-    toAccount.balance += amount;
+    Account.update(fromAccountId, { balance: parseFloat(fromAccount.balance) - transferAmount });
+    Account.update(toAccount.id, { balance: parseFloat(toAccount.balance) + transferAmount });
+    
+    // Atualizar os objetos locais para o recibo
+    fromAccount.balance -= transferAmount;
+    toAccount.balance += transferAmount;
 
     const transfer = Transfer.create({
       fromAccountId,
       toAccountId: toAccount.id,
-      amount,
+      amount: transferAmount,
       description: description || 'Transferência'
     });
 

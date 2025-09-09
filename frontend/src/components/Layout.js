@@ -25,7 +25,7 @@ const Layout = () => {
             </li>
             <li>
               <Link to="/accounts" className={isActive('/accounts') ? 'active' : ''}>
-                Contas
+                Minhas contas
               </Link>
             </li>
             <li>
@@ -64,7 +64,7 @@ const Layout = () => {
             <img src="./econtador-bank-logo.png" alt="eContador Bank" />
           </div>
           <div className="about-info">
-            <p><strong>Versão:</strong> 1.0.0</p>
+            <p><strong>Versão:</strong> 1.0.1</p>
             <br />
             <p>Software desenvolvido por inteligência artificial para fins didáticos.</p>
           </div>

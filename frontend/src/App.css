@@ -418,16 +418,21 @@ body {
   margin-bottom: 0.5rem;
 }
 
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .receipt-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
   text-align: center;
   padding-top: 1rem;
   border-top: 2px solid #eee;
 }
-
-.receipt-actions button {
-  margin: 0 0.5rem;
-}
-
 .about-modal {
   text-align: center;
 }

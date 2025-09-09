@@ -53,6 +53,7 @@ const Login = () => {
             <input
               type="email"
               name="email"
+              placeholder="john@email.com"
               value={formData.email}
               onChange={handleChange}
               required
