@@ -168,7 +168,7 @@ eContador Bank
       <br />
 
       <div className="transfer-form">
-        <h3>Nova Transferência</h3>
+        <h3>Nova transferência</h3>
         <br />
         
 
@@ -247,8 +247,7 @@ eContador Bank
       {receipt && (
         <div className="receipt">
           <div className="receipt-header">
-            <h3>Comprovante de Transferência</h3>
-            <p>Transferência realizada com sucesso!</p>
+            <h3>Comprovante de transferência</h3>
           </div>
           
           <div className="receipt-details">
