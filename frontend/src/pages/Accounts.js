@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Modal from '../components/Modal';
 import FormInput from '../components/FormInput';
+import BankSelection from '../components/BankSelection';
 import { accountAPI } from '../services/api';
 
 const Accounts = () => {
@@ -19,6 +20,7 @@ const Accounts = () => {
   const [error, setError] = useState('');
   const accountNumberRef = useRef();
   const agencyRef = useRef();
+  const bankRef = useRef();
   const passwordRef = useRef();
 
   useEffect(() => {
@@ -100,9 +102,10 @@ const Accounts = () => {
     
     const isAccountNumberValid = accountNumberRef.current?.validate() ?? true;
     const isAgencyValid = agencyRef.current?.validate() ?? true;
+    const isBankValid = bankRef.current?.validate() ?? true;
     const isPasswordValid = passwordRef.current?.validate() ?? true;
     
-    if (!isAccountNumberValid || !isAgencyValid || !isPasswordValid) {
+    if (!isAccountNumberValid || !isAgencyValid || !isBankValid || !isPasswordValid) {
       return;
     }
     
@@ -236,31 +239,15 @@ const Accounts = () => {
             required
           />
 
-          <div className="form-group">
-            <label>Banco</label>
-            <div className="bank-selection">
-              {banks.map(bank => (
-                <div 
-                  key={bank.id}
-                  className={`bank-card ${formData.bank === bank.id ? 'selected' : ''}`}
-                  onClick={() => handleBankSelect(bank.id)}
-                >
-                  <div className="bank-logo">
-                    <img 
-                      src={getBankImage(bank.id)} 
-                      alt={bank.name}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'block';
-                      }}
-                    />
-                    <div style={{display: 'none'}}>{bank.name.substring(0, 3).toUpperCase()}</div>
-                  </div>
-                  <div>{bank.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <BankSelection
+            ref={bankRef}
+            label="Banco"
+            banks={banks}
+            selectedBank={formData.bank}
+            onBankSelect={handleBankSelect}
+            getBankImage={getBankImage}
+            required
+          />
 
           <FormInput
             ref={passwordRef}

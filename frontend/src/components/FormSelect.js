@@ -1,25 +1,21 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
 
-const FormInput = forwardRef(({ 
+const FormSelect = forwardRef(({ 
   label, 
   name, 
-  type = 'text', 
   value, 
   onChange, 
   required = false,
-  placeholder,
+  children,
   ...props 
 }, ref) => {
   const [error, setError] = useState('');
 
   const validateField = () => {
-    if (required && !value.trim()) {
+    if (required && !value) {
       const getArticleAndLabel = (fieldLabel) => {
         const labelLower = fieldLabel.toLowerCase();
-        if (labelLower.includes('confirmar senha')) {
-          return { article: 'a', displayLabel: 'senha' };
-        }
-        if (labelLower.includes('senha') || labelLower.includes('agência') || labelLower.includes('conta')) {
+        if (labelLower.includes('conta')) {
           return { article: 'a', displayLabel: labelLower };
         }
         return { article: 'o', displayLabel: labelLower };
@@ -46,19 +42,19 @@ const FormInput = forwardRef(({
       <label>
         {label} {required && <span className="required-text">(obrigatório)</span>}
       </label>
-      <input
-        type={type}
+      <select
         name={name}
         value={value}
         onChange={onChange}
         onBlur={handleBlur}
-        placeholder={placeholder}
         className={error ? 'input-error' : ''}
         {...props}
-      />
+      >
+        {children}
+      </select>
       {error && <div className="field-error">{error}</div>}
     </div>
   );
 });
 
-export default FormInput;
+export default FormSelect;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Modal from '../components/Modal';
 import FormInput from '../components/FormInput';
+import FormSelect from '../components/FormSelect';
 import { transferAPI, accountAPI } from '../services/api';
 
 const Transfers = () => {
@@ -18,6 +19,7 @@ const Transfers = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const fromAccountRef = useRef();
   const toAccountNumberRef = useRef();
   const toAgencyRef = useRef();
   const amountRef = useRef();
@@ -65,11 +67,12 @@ const Transfers = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    const isFromAccountValid = fromAccountRef.current?.validate() ?? true;
     const isToAccountNumberValid = toAccountNumberRef.current?.validate() ?? true;
     const isToAgencyValid = toAgencyRef.current?.validate() ?? true;
     const isAmountValid = amountRef.current?.validate() ?? true;
     
-    if (!isToAccountNumberValid || !isToAgencyValid || !isAmountValid) {
+    if (!isFromAccountValid || !isToAccountNumberValid || !isToAgencyValid || !isAmountValid) {
       return;
     }
     
@@ -170,22 +173,21 @@ eContador Bank
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Conta de origem</label>
-            <select
-              name="fromAccountId"
-              value={formData.fromAccountId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione uma conta</option>
-              {accounts.map(account => (
-                <option key={account.id} value={account.id}>
-                  {getAccountDisplay(account)} - {formatCurrency(account.balance)}
-                </option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            ref={fromAccountRef}
+            label="Conta de origem"
+            name="fromAccountId"
+            value={formData.fromAccountId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione uma conta</option>
+            {accounts.map(account => (
+              <option key={account.id} value={account.id}>
+                {getAccountDisplay(account)} - {formatCurrency(account.balance)}
+              </option>
+            ))}
+          </FormSelect>
 
           <FormInput
             ref={toAccountNumberRef}
