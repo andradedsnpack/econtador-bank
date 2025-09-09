@@ -179,9 +179,9 @@ eContador Bank
             <input
               type="text"
               name="toAccountNumber"
+              placeholder="123456-7"
               value={formData.toAccountNumber}
               onChange={handleChange}
-              placeholder="Número da conta"
               required
             />
           </div>
@@ -191,9 +191,9 @@ eContador Bank
             <input
               type="text"
               name="toAgency"
+              placeholder="0001"
               value={formData.toAgency}
               onChange={handleChange}
-              placeholder="Agência"
               required
             />
           </div>
@@ -203,6 +203,7 @@ eContador Bank
             <input
               type="number"
               name="amount"
+              placeholder="0,00"
               value={formData.amount}
               onChange={handleChange}
               step="0.01"
@@ -239,19 +240,19 @@ eContador Bank
           
           <div className="receipt-details">
             <div className="receipt-row">
-              <span>Conta Origem:</span>
+              <span>Conta origem:</span>
               <span>{receipt.fromAccount}</span>
             </div>
             <div className="receipt-row">
-              <span>Banco Origem:</span>
+              <span>Banco origem:</span>
               <span>{receipt.fromBank}</span>
             </div>
             <div className="receipt-row">
-              <span>Conta Destino:</span>
+              <span>Conta destino:</span>
               <span>{receipt.toAccount}</span>
             </div>
             <div className="receipt-row">
-              <span>Banco Destino:</span>
+              <span>Banco destino:</span>
               <span>{receipt.toBank}</span>
             </div>
             <div className="receipt-row">

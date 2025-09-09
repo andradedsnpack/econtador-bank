@@ -25,7 +25,7 @@ const Layout = () => {
             </li>
             <li>
               <Link to="/accounts" className={isActive('/accounts') ? 'active' : ''}>
-                Contas
+                Minhas contas
               </Link>
             </li>
             <li>
