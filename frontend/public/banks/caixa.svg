@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="104 - CAIXA ECONOMICA FEDERAL.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="208.57143"
+     inkscape:cy="320"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1360"
+     inkscape:window-height="728"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Logos"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-0.26339047,0.11154066)">
+    <g
+       id="g204-9"
+       transform="matrix(0.39177914,0,0,0.39144844,417.78154,20.579343)">
+      <rect
+         style="fill:#016db8;fill-opacity:1;stroke:none;stroke-width:0.27243"
+         id="rect56-3"
+         width="510.4917"
+         height="510.92297"
+         x="-1065.6978"
+         y="-458.06573"
+         transform="scale(1,-1)" />
+    </g>
+    <g
+       id="g1012"
+       transform="matrix(1.3596126,0,0,1.3596126,-35.808198,-1.8461983)">
+      <g
+         id="g204-8"
+         transform="matrix(0.80823172,0,0,0.80823172,399.92117,-192.61127)"
+         style="opacity:1">
+        <polygon
+           points="111.269,133.44 119.295,149.535 134.244,149.535 129.126,139.328 126.174,133.44 "
+           id="polygon2999-4-1-6"
+           style="fill:#ffffff;fill-rule:evenodd"
+           transform="matrix(3.543307,0,0,3.543307,-818.5095,-204.74689)" />
+        <polygon
+           points="133.303,151.343 123.498,161.603 126.557,167.439 141.417,167.439 "
+           id="polygon3001-0-3-4"
+           style="fill:#ffffff;fill-rule:evenodd"
+           transform="matrix(3.543307,0,0,3.543307,-818.5095,-204.74689)" />
+        <polygon
+           points="134.267,149.557 149.525,133.506 134.62,133.506 129.149,139.35 "
+           id="polygon3005-6-4-6"
+           style="fill:#f8a23d;fill-rule:evenodd"
+           transform="matrix(3.543307,0,0,3.543307,-818.5095,-204.74689)" />
+        <polygon
+           points="133.267,151.336 118.451,151.336 103.281,167.255 118.054,167.255 123.462,161.596 "
+           id="polygon3007-3-8-3"
+           style="fill:#f8a23d;fill-rule:evenodd"
+           transform="matrix(3.543307,0,0,3.543307,-818.5095,-204.74689)" />
+      </g>
+    </g>
+  </g>
+</svg>

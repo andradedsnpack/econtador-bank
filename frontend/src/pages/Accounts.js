@@ -134,14 +134,21 @@ const Accounts = () => {
     return bank ? bank.name : bankId;
   };
 
+  const getBankImage = (bankId) => {
+    return `/banks/${bankId}.svg`;
+  };
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h2>Minhas Contas</h2>
-        <button className="btn btn-primary" onClick={() => handleOpenModal()}>
-          Nova Conta
-        </button>
+        <h2>Minhas contas</h2>
       </div>
+      <button className="btn btn-primary" onClick={() => handleOpenModal()}>
+          Nova conta
+      </button>
+      <br />
+      <br />
+      <br />
 
       <div className="accounts-grid">
         {accounts.map(account => (
@@ -161,7 +168,20 @@ const Accounts = () => {
               </button>
             </div>
             
-            <h3>{getBankName(account.bank)}</h3>
+            <div className="account-bank-info">
+              <div className="account-bank-logo">
+                <img 
+                  src={getBankImage(account.bank)} 
+                  alt={getBankName(account.bank)}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'block';
+                  }}
+                />
+                <div style={{display: 'none'}}>{getBankName(account.bank).substring(0, 3).toUpperCase()}</div>
+              </div>
+              <h3>{getBankName(account.bank)}</h3>
+            </div>
             <p><strong>Conta:</strong> {account.accountNumber}</p>
             <p><strong>Agência:</strong> {account.agency}</p>
             <p><strong>Saldo:</strong> {formatCurrency(account.balance)}</p>
@@ -184,7 +204,7 @@ const Accounts = () => {
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Número da Conta:</label>
+            <label>Número da conta</label>
             <input
               type="text"
               name="accountNumber"
@@ -195,7 +215,7 @@ const Accounts = () => {
           </div>
 
           <div className="form-group">
-            <label>Agência:</label>
+            <label>Agência</label>
             <input
               type="text"
               name="agency"
@@ -206,7 +226,7 @@ const Accounts = () => {
           </div>
 
           <div className="form-group">
-            <label>Banco:</label>
+            <label>Banco</label>
             <div className="bank-selection">
               {banks.map(bank => (
                 <div 
@@ -214,7 +234,17 @@ const Accounts = () => {
                   className={`bank-card ${formData.bank === bank.id ? 'selected' : ''}`}
                   onClick={() => handleBankSelect(bank.id)}
                 >
-                  <div className="bank-logo">{bank.name.substring(0, 3).toUpperCase()}</div>
+                  <div className="bank-logo">
+                    <img 
+                      src={getBankImage(bank.id)} 
+                      alt={bank.name}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
+                    />
+                    <div style={{display: 'none'}}>{bank.name.substring(0, 3).toUpperCase()}</div>
+                  </div>
                   <div>{bank.name}</div>
                 </div>
               ))}
@@ -222,7 +252,7 @@ const Accounts = () => {
           </div>
 
           <div className="form-group">
-            <label>Senha da Conta:</label>
+            <label>Senha da conta</label>
             <input
               type="password"
               name="password"
@@ -234,7 +264,7 @@ const Accounts = () => {
 
           {!editingAccount && (
             <div className="form-group">
-              <label>Saldo Inicial:</label>
+              <label>Saldo inicial</label>
               <input
                 type="number"
                 name="balance"

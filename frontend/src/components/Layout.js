@@ -11,7 +11,7 @@ const Layout = () => {
   return (
     <div className="layout">
       <div className="sidebar">
-        <img class="logo" src="./econtador-bank-logo-alt.png" alt="logo" />
+        <img className="logo" src="./econtador-bank-logo-alt.png" alt="logo" />
         <br />
         <br />
         <nav>

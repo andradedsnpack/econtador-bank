@@ -46,11 +46,12 @@ const transfers = [
 ];
 
 const banks = [
+  { id: 'banco_do_brasil', name: 'Banco do Brasil' },
   { id: 'bradesco', name: 'Bradesco' },
-  { id: 'itau', name: 'Itaú' },
-  { id: 'nubank', name: 'Nubank' },
+  { id: 'caixa', name: 'Caixa Econômica' },
   { id: 'inter', name: 'Inter' },
-  { id: 'banco_do_brasil', name: 'Banco do Brasil' }
+  { id: 'itau', name: 'Itaú' },
+  { id: 'nubank', name: 'Nubank' }
 ];
 
 module.exports = {

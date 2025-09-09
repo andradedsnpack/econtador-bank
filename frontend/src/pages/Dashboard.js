@@ -39,10 +39,11 @@ const Dashboard = () => {
   return (
     <div>
       <h2>Dashboard</h2>
+      <br />
       
       <div className="dashboard-cards">
         <div className="dashboard-card">
-          <h3>Saldo Total</h3>
+          <h3>Saldo total</h3>
           <div className="value">{formatCurrency(dashboardData.totalBalance)}</div>
         </div>
         
@@ -61,13 +62,14 @@ const Dashboard = () => {
         </div>
         
         <div className="dashboard-card">
-          <h3>Contas Cadastradas</h3>
+          <h3>Contas cadastradas</h3>
           <div className="value">{dashboardData.accountsCount}</div>
         </div>
       </div>
 
       <div className="chart-container">
-        <h3>Movimentação dos Últimos 6 Meses</h3>
+        <h3>Movimentação dos últimos 6 meses</h3>
+        <br />
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={dashboardData.chartData}>
             <CartesianGrid strokeDasharray="3 3" />

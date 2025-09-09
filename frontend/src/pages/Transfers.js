@@ -148,15 +148,17 @@ eContador Bank
   return (
     <div>
       <h2>Transferências</h2>
+      <br />
 
       <div className="transfer-form">
         <h3>Nova Transferência</h3>
+        <br />
         
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Conta de Origem:</label>
+            <label>Conta de origem</label>
             <select
               name="fromAccountId"
               value={formData.fromAccountId}
@@ -173,7 +175,7 @@ eContador Bank
           </div>
 
           <div className="form-group">
-            <label>Conta de Destino:</label>
+            <label>Conta de destino</label>
             <input
               type="text"
               name="toAccountNumber"
@@ -185,7 +187,7 @@ eContador Bank
           </div>
 
           <div className="form-group">
-            <label>Agência de Destino:</label>
+            <label>Agência de destino</label>
             <input
               type="text"
               name="toAgency"
@@ -197,7 +199,7 @@ eContador Bank
           </div>
 
           <div className="form-group">
-            <label>Valor:</label>
+            <label>Valor</label>
             <input
               type="number"
               name="amount"
@@ -212,7 +214,7 @@ eContador Bank
           </div>
 
           <div className="form-group">
-            <label>Descrição (opcional):</label>
+            <label>Descrição (opcional)</label>
             <input
               type="text"
               name="description"
@@ -281,7 +283,7 @@ eContador Bank
       )}
 
       <div className="transfer-history">
-        <h3>Histórico de Transferências</h3>
+        <h3>Histórico de transferências</h3>
         
         {transfers.length === 0 ? (
           <p>Nenhuma transferência encontrada.</p>
